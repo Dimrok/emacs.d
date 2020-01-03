@@ -7,11 +7,13 @@
 (maybe-require-package 'coffee-mode)
 (maybe-require-package 'typescript-mode)
 (maybe-require-package 'prettier-js)
+(maybe-require-package 'vue-mode)
 
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
 
 (add-to-list 'auto-mode-alist '("\\.\\(js\\|es6\\)\\(\\.erb\\)?\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(vue\\)?\\'" . vue-mode))
 
 ;; js2-mode
 
@@ -28,7 +30,7 @@
       (setq-local js2-mode-show-parse-errors t)
       (setq-local js2-mode-show-strict-warnings t)))
   (add-hook 'js2-mode-hook 'sanityinc/enable-js2-checks-if-flycheck-inactive)
-
+  (setq forward-sexp-function nil)
   (add-hook 'js2-mode-hook (lambda () (setq mode-name "JS2")))
 
   (js2-imenu-extras-setup))
@@ -95,6 +97,11 @@
   (after-load 'js2-mode
     (add-hook 'js2-mode-hook 'add-node-modules-path)))
 
+;; Prettier
+(setq prettier-js-args '("--trailing-comma" "none" "--single-quote"))
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook 'prettier-js-mode)
 
 (provide 'init-javascript)
 ;;; init-javascript.el ends here
+

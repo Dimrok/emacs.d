@@ -6,14 +6,26 @@
 
 ;;; Code:
 
+
 ;; Produce backtraces when errors occur: can be helpful to diagnose startup issues
 ;;(setq debug-on-error t)
+(setq package-check-signature nil)
+
+(defun may-load (path)
+  "Load a file PATH iff it exists."
+  (when (file-readable-p path)
+    (load-file path)))
+
+(defun reload ()
+  "Reload configuration file."
+  (interactive)
+  (load-file "~/.emacs.d/init.el"))
 
 (let ((minver "24.4"))
   (when (version< emacs-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 (when (version< emacs-version "25.1")
-  (message "Your Emacs is old, and some functionality in this config will be disabled. Please upgrade if possible."))
+  (message "Your Emacs is old,and some functionality in this config will be disabled. Please upgrade if possible."))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-benchmarking) ;; Measure startup time
@@ -71,7 +83,7 @@
 ;;(require 'init-helm)
 (require 'init-hippie-expand)
 (require 'init-company)
-(require 'init-windows)
+;; (require 'init-windows)
 (require 'init-sessions)
 (require 'init-mmm)
 
@@ -95,7 +107,7 @@
 (require 'init-php)
 (require 'init-org)
 (require 'init-nxml)
-(require 'init-html)
+; (require 'init-html)
 (require 'init-css)
 (require 'init-haml)
 (require 'init-http)
@@ -176,7 +188,7 @@
 ;;----------------------------------------------------------------------------
 ;; Allow users to provide an optional "init-local" containing personal settings
 ;;----------------------------------------------------------------------------
-(require 'init-local nil t)
+(load-file "~/.emacs.d/init-local.el")
 
 
 
