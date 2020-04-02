@@ -21,7 +21,9 @@
 (show-paren-mode t)                     ; match parenthesis
 (setq-default indent-tabs-mode nil)	; don't use fucking tabs to indent
 
-(global-undo-tree-mode)
+(require 'undo-tree)
+(global-undo-tree-mode t)
+
 ;; Color compilation terminal.
 (require 'ansi-color)
 ;; Lol.
@@ -35,6 +37,7 @@
 ;; Language agnostic navigation bindings.
 ;;
 (global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-Z"))
 
 ;; Search.
 (global-set-key [(control f)] 'isearch-forward-regexp)  ; search regexp
